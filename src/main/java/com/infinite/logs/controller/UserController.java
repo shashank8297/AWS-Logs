@@ -1,5 +1,7 @@
 package com.infinite.logs.controller;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.infinite.logs.model.User;
 import com.infinite.logs.service.UserService;
+
+
 
 @RestController
 @RequestMapping("/logs")
@@ -37,7 +41,7 @@ public class UserController {
 	@GetMapping("/user/{id}")
 	public User userDetails(@PathVariable("id") Long userId) {
 		
-		logger.info("Search for user "+userId);
+		logger.info("Search for user with "+userId);
 		
 		return userService.userDetails(userId);
 	}
@@ -47,8 +51,14 @@ public class UserController {
 		boolean result =  userService.userDelete(userId);
 		if(result) {
 			logger.info("User with userId "+userId+" is deleted.");
-			return "user "+userId+" is deleted";
+			return "user with "+userId+" is deleted";
 		}
 		return ".";
+	}
+	
+	@GetMapping("/allUsers")
+	public List<User> userList(){
+		logger.info("getting users data");
+		return userService.getAllUsers();
 	}
 }
